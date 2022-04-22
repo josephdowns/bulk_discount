@@ -138,5 +138,24 @@ RSpec.describe 'Merchant items index' do
       expect(page).to have_content("2019.04.16")
       expect(page).to have_content("no sales records available")
     end
+
+    it "returns the most recent date if two dates have the same sales" do
+      @merchant_1 = Merchant.create!(name: "Bill's Solar")
+      @item_1 = @merchant_1.items.create!(name: "LG Solar Pannel", description: "3rd gen", unit_price: 10000, status: 1)
+      @customer_1 = Customer.create!(first_name: "Al", last_name: "Gore")
+      @invoice_1 = Invoice.create!(customer_id: @customer_1.id, status: 1,created_at: Time.parse("2019.04.12"))
+      @invoice_2 = Invoice.create!(customer_id: @customer_1.id, status: 2,created_at: Time.parse("2019.04.15"))
+      @invoice_3 = Invoice.create!(customer_id: @customer_1.id, status: 0,created_at: Time.parse("2019.04.15"))
+      @invoice_4 = Invoice.create!(customer_id: @customer_1.id, status: 1,created_at: Time.parse("2019.04.13"))
+      @invoice_5 = Invoice.create!(customer_id: @customer_1.id, status: 1,created_at: Time.parse("2019.04.12"))
+      @invoice_item_1 = InvoiceItem.create!(unit_price: 42, status: 1, quantity:100, item_id: @item_1.id, invoice_id: @invoice_1.id)
+      @invoice_item_2 = InvoiceItem.create!(unit_price: 42, status: 1, quantity: 60, item_id: @item_1.id, invoice_id: @invoice_2.id)
+      @invoice_item_3 = InvoiceItem.create!(unit_price: 42, status: 1, quantity: 55, item_id: @item_1.id, invoice_id: @invoice_3.id)
+      @invoice_item_4 = InvoiceItem.create!(unit_price: 42, status: 1, quantity: 75, item_id: @item_1.id, invoice_id: @invoice_4.id)
+      @invoice_item_5 = InvoiceItem.create!(unit_price: 42, status: 1, quantity: 15, item_id: @item_1.id, invoice_id: @invoice_5.id)
+
+      visit merchant_items_path(@merchant_1)
+      expect(page).to have_content("2019.04.15")
+    end
   end
 end

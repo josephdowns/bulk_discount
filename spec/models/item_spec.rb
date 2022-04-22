@@ -41,5 +41,10 @@ RSpec.describe Item, type: :model do
       @item_2 = @merchant_1.items.create!(name: "LG Solar Pannel", description: "2rd gen", unit_price: 8000, status: 1)
       expect(@item_2.best_sales_date).to eq("no sales records available")
     end
+
+    it "returns the most recent date if two dates have the same sales" do
+      @invoice_item_2.update(quantity: 60)
+      expect(@item_1.best_sales_date).to eq("2019.04.15")
+    end
   end
 end
