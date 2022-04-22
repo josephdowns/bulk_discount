@@ -59,6 +59,8 @@ RSpec.describe Merchant, type: :model do
 
     describe 'class methods' do
       before :each do
+        @date = "2020-02-08 09:54:09 UTC".to_datetime
+
         @merchant1 = Merchant.create!(name: "Pabu")
         @merchant2 = Merchant.create!(name: "Loki")
         @merchant3 = Merchant.create!(name: "Thor")
@@ -77,7 +79,7 @@ RSpec.describe Merchant, type: :model do
 
         @customer1 = Customer.create!(first_name: "Customer", last_name: "One")
 
-        @invoice1 = @customer1.invoices.create!(status: 2)
+        @invoice1 = @customer1.invoices.create!(status: 1, created_at: @date)
         @invoice2 = @customer1.invoices.create!(status: 2)
         @invoice3 = @customer1.invoices.create!(status: 2)
         @invoice4 = @customer1.invoices.create!(status: 2)
@@ -100,8 +102,18 @@ RSpec.describe Merchant, type: :model do
         @transaction5 = Transaction.create!(credit_card_number: 102938, result: 'failed', invoice_id: @invoice5.id)
         @transaction6 = Transaction.create!(credit_card_number: 879799, result: 'success', invoice_id: @invoice6.id)
       end
+
       it '#top_5_merchants returns based on total rev' do
         expect(Merchant.top_5_merchants).to eq([@merchant2, @merchant4, @merchant3, @merchant1, @merchant6])
+      end
+
+      it "can find the total revenue" do
+        expect(@merchant1.total_rev).to eq(1000)
+      end
+
+      it "formats the created_at" do
+        expect(@merchant1.best_date_formatted).to eq("Saturday, February 08 2020")
+        expect(@merchant2.best_date_formatted).to eq("No sales data")
       end
     end
   end

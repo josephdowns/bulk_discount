@@ -6,7 +6,6 @@
   <p><strong>Invoice customer: </strong><%= @invoice.customer.first_name %> <%= @invoice.customer.last_name%></p>
   <p><strong>Total revenue generated: </strong><%= number_to_currency(@invoice.total_rev/100, precision: 2) %></p>
 </div>
-<hr>
 <h2>Invoice Items</h2>
 <% @items.each do |item| %>
   <% item.invoice_items.each do |invoice_item| %>

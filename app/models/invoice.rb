@@ -17,7 +17,7 @@ class Invoice < ApplicationRecord
   end
 
   def format_time
-    created_at.strftime('%A, %B %e, %Y')
+    created_at.strftime('%A, %B%e, %Y')
   end
 
   def total_rev

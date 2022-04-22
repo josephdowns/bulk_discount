@@ -41,7 +41,7 @@ class Merchant < ApplicationRecord
       return "No sales data"
     end
   end
-  
+
   def self.top_5_merchants
     joins(:invoice_items, :transactions)
     .where('result = ?', 'success')
