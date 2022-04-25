@@ -1,6 +1,8 @@
 <h1><%= @merchant.name %> Discounts</h1>
 <div id="discounts">
   <% @merchant.discounts.each do |discount| %>
-    <p><%= "#{discount.to_percent}% off #{discount.threshold} items"%></p>
+    <div id="discounts-<%= discount.id %>">
+      <p><%= link_to "#{discount.to_percent}% off #{discount.threshold} items", "/merchants/#{@merchant.id}/discounts/#{discount.id}"%></p>
+    </div>
   <% end %>
 </div>

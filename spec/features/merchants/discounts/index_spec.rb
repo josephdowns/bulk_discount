@@ -22,6 +22,13 @@ describe "merchants/bulk_discounts index page", type: :feature do
         expect(page).to have_content("10 items")
       end
     end
+
+    it "links me to the discount show page" do
+      within("#discounts-#{@discount1.id}") do
+        click_on "#{@discount1.to_percent}% off #{@discount1.threshold} items"
+      end
+      expect(current_path).to eq("/merchants/#{@targay.id}/discounts/#{@discount1.id}")
+    end
   end
 
 end
