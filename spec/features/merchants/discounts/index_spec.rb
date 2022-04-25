@@ -47,13 +47,20 @@ describe "merchants/bulk_discounts index page", type: :feature do
       fill_in(:discount, with: "0.25")
       fill_in(:threshold, with: "50")
       click_on "Submit"
-      save_and_open_page
 
       within('#discounts') do
         expect(page).to have_content("25.0%")
         expect(page).to have_content("50 items")
       end
+    end
 
+    it "lets me delete a discount" do
+      within("#discounts-#{@discount1.id}") do
+        click_on "Delete this discount"
+      end
+
+      expect(page).to_not have_content("10.0%")
+      expect(page).to_not have_content("20 items")
     end
   end
 
