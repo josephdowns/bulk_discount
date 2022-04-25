@@ -11,6 +11,7 @@ describe "merchants/bulk_discounts index page", type: :feature do
 
     visit "/merchants/#{@targay.id}/discounts"
   end
+
   describe "when I visit the bulk_discounts index page" do
     it "displays all of my bulk_discounts including their attributes" do
       within('#discounts') do
@@ -28,6 +29,31 @@ describe "merchants/bulk_discounts index page", type: :feature do
         click_on "#{@discount1.to_percent}% off #{@discount1.threshold} items"
       end
       expect(current_path).to eq("/merchants/#{@targay.id}/discounts/#{@discount1.id}")
+    end
+
+    it "has a link to create a new discount" do
+      click_on "Make a new discount"
+      expect(current_path).to eq("/merchants/#{@targay.id}/discounts/new")
+    end
+
+    it "creates a new discount" do
+      within('#discounts') do
+        expect(page).to_not have_content("25.0%")
+        expect(page).to_not have_content("50 items")
+      end
+
+      click_on "Make a new discount"
+
+      fill_in(:discount, with: "0.25")
+      fill_in(:threshold, with: "50")
+      click_on "Submit"
+      save_and_open_page
+
+      within('#discounts') do
+        expect(page).to have_content("25.0%")
+        expect(page).to have_content("50 items")
+      end
+
     end
   end
 
