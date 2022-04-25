@@ -1,0 +1,10 @@
+<h1><%= @merchant.name %> Discounts</h1>
+<p><%= link_to "Make a new discount", "/merchants/#{@merchant.id}/discounts/new" %></p>
+<div id="discounts">
+  <% @merchant.discounts.each do |discount| %>
+    <div id="discounts-<%= discount.id %>">
+      <p><%= link_to "#{discount.to_percent}% off #{discount.threshold} items", "/merchants/#{@merchant.id}/discounts/#{discount.id}"%>
+      <%= link_to "Delete this discount", merchant_discount_path(@merchant, discount), method: "delete" %></p>
+    </div>
+  <% end %>
+</div>

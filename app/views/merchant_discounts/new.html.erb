@@ -1,0 +1,7 @@
+<%= form_with url: merchant_discounts_path, method: "post", local: true do |f| %>
+  <%= f.label :discount %>
+  <%= f.number_field :discount, step: 0.05 %><br><br>
+  <%= f.label :threshold %>
+  <%= f.number_field :threshold, in: 10...50, step: 5 %><br><br>
+  <%= f.submit "Submit" %>
+<% end  %>
