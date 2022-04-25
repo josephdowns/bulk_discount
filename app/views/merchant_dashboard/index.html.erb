@@ -2,6 +2,7 @@
 <div id="index-buttons">
   <%= button_to 'Items Index', merchant_items_path(@merchant), method: :get %>
   <%= button_to 'Invoices Index', merchant_invoices_path(@merchant), method: :get %>
+  <%= link_to "View all my discounts", "/merchants/#{@merchant.id}/discounts" %>
 </div>
 
 <hr>

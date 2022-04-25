@@ -127,4 +127,12 @@ RSpec.describe 'merchant dashboard' do
       expect(page).to_not have_content(@customer5.first_name)
     end
   end
+
+  it "has a link to view all my discounts" do
+    visit "/merchants/#{@merchant1.id}/dashboard"
+
+    click_on "View all my discounts"
+
+    expect(current_path).to eq("/merchants/#{@merchant1.id}/discounts")
+  end
 end

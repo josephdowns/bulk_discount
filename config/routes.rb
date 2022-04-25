@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   resources :merchants do
+    resources :discounts, controller: 'merchant_discounts'
     resources :dashboard, controller: 'merchant_dashboard', only: [:index]
     resources :items, controller: 'merchant_items'
     resources :invoices, controller: 'merchant_invoices', only: [:index, :show, :update]
