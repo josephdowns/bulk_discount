@@ -12,4 +12,19 @@ class InvoiceItem < ApplicationRecord
   has_many :discounts, through: :merchant
 
   enum status: {pending: 0, packaged: 1, shipped: 2}
+
+  def discount?
+    if applied
+      return true
+    else
+      return false
+    end
+  end
+
+  def applied
+    discounts.where("threshold <= ?", self.quantity)
+    .order(discount: :desc)
+    .limit(1)
+    .first
+  end
 end

@@ -87,4 +87,21 @@ RSpec.describe 'merchant dashboard' do
       expect(page).to have_content("$154.00")
     end
   end
+
+  it "displays when a discount will be applied" do
+    within("#invoice-item-#{@item1.id}-#{@ii1.id}") do
+      expect(page).to have_content("Discount: Applied")
+      click_on "Applied"
+    end
+    expect(current_path).to eq("/merchants/#{@merchant1.id}/discounts/#{@discount2.id}")
+  end
+
+  it "displays when a discount will not be applied" do
+    visit "/merchants/#{@merchant2.id}/invoices/#{@invoice3.id}"
+
+    within("#invoice-item-#{@item3.id}-#{@ii4.id}") do
+      expect(page).to have_content("Discount: No discount found")
+    end
+  end
+
 end
