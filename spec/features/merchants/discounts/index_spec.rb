@@ -43,6 +43,7 @@ describe "merchants/bulk_discounts index page", type: :feature do
       end
 
       click_on "Make a new discount"
+      save_and_open_page
 
       fill_in(:discount, with: "0.25")
       fill_in(:threshold, with: "50")
