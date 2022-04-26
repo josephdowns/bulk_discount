@@ -6,6 +6,8 @@ RSpec.describe 'Admin invoice show page' do
     @starw = Merchant.create!(name: "Star Wars R Us ")
     @start = Merchant.create!(name: "Star Trek R Us ")
 
+    @discount1 = @starw.discounts.create!(discount: 0.3, threshold: 20)
+
     @item1 = @starw.items.create!(name:	"X-wing",
                           description: "X-wing ship",
                           unit_price:75107,
@@ -34,9 +36,9 @@ RSpec.describe 'Admin invoice show page' do
 
     @invoice2 = @customer1.invoices.create!(status: 1)
 
-    @invoiceitem1 = InvoiceItem.create(quantity: 1, unit_price: 100, item_id: @item1.id, invoice_id: @invoice1.id, status: 0)
-    @invoiceitem2 = InvoiceItem.create(quantity: 1, unit_price: 100, item_id: @item2.id, invoice_id: @invoice1.id, status: 1)
-    @invoiceitem3 = InvoiceItem.create(quantity: 1, unit_price: 100, item_id: @item3.id, invoice_id: @invoice2.id, status: 0)
+    @invoiceitem1 = InvoiceItem.create(quantity: 6, unit_price: 100, item_id: @item1.id, invoice_id: @invoice1.id, status: 0)
+    @invoiceitem2 = InvoiceItem.create(quantity: 5, unit_price: 100, item_id: @item2.id, invoice_id: @invoice1.id, status: 1)
+    @invoiceitem3 = InvoiceItem.create(quantity: 20, unit_price: 100, item_id: @item3.id, invoice_id: @invoice2.id, status: 0)
 
     visit "/admin/invoices/#{@invoice1.id}"
   end
@@ -68,7 +70,7 @@ RSpec.describe 'Admin invoice show page' do
     @invoiceitem2.update(quantity: 3)
     visit "/admin/invoices/#{@invoice1.id}"
 
-    expect(page).to have_content("Total revenue generated: $4.00")
+    expect(page).to have_content("Total revenue generated: $9.00")
   end
 
   it 'shows the invoice status as a select field that is editable, with a submit button' do
@@ -89,6 +91,13 @@ RSpec.describe 'Admin invoice show page' do
     expected = find_field(:update_status).value
 
     expect(expected).to eq("cancelled")
+  end
+
+  it "displays the total discounted revenue for this invoice" do
+    visit "/admin/invoices/#{@invoice2.id}"
+    within("#invoice") do
+      expect(page).to have_content("Total discounted revenue: $14.00")
+    end
   end
 
 end
