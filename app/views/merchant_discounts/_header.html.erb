@@ -1,6 +1,7 @@
 <div class="header">
   <h1>Upcoming Holidays</h1>
   <% @holidays.upcoming.each do |holiday| %>
-    <%= holiday.name %>
+    <p><%= holiday.name %>
+    <%= holiday.date.strftime('%A, %B %e, %Y') %></p>
   <% end %>
 </div>
