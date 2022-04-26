@@ -49,6 +49,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'httparty'
+  gem 'json'
 end
 
 group :development do
