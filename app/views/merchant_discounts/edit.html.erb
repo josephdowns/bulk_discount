@@ -2,8 +2,8 @@
 
 <%= form_with url: merchant_discount_path, method: :patch, local: true do |f| %>
   <%= f.label :discount %>
-  <%= f.number_field :discount, value: @discount.discount, step: 0.5 %><br><br>
+  <%= f.number_field :discount, value: @discount.discount, min: 0.05, max: 1.0 step: 0.05 %><br><br>
   <%= f.label :threshold %>
-  <%= f.number_field :threshold, value: @discount.threshold, step: 5 %><br><br>
+  <%= f.number_field :threshold, value: @discount.threshold, min: 10, max: 50 step: 5 %><br><br>
   <%= f.submit "Submit" %>
 <% end %>

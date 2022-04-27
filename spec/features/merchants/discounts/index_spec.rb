@@ -14,7 +14,6 @@ describe "merchants/bulk_discounts index page", type: :feature do
 
   describe "when I visit the bulk_discounts index page" do
     it "displays all of my bulk_discounts including their attributes" do
-      save_and_open_page
       within('#discounts') do
         expect(page).to have_content("10.0%")
         expect(page).to have_content("20 items")
